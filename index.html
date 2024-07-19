@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de Backend con Node: API REST con Express.js</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+        body {
+          width: 500px;
+          margin: auto;
+        }
+        input {
+          border-radius: 5px;
+          width: 10%;
+          height: 20px;
+          padding: 4PX;
+          transition: width 0.4s ease-in-out;
+          display: block;
+          margin: auto;
+          margin-top: 24px;
+
+        }
+        input:focus {
+          width: 100%;
+          background-color: lightblue;
+          border: 3px solid #555;
+        }
+        button {
+          display: block;
+          margin: auto;
+          margin-top: 24px;
+        }
+        p {
+          text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Curso de Backend con Node: API REST con Express.js</h1>
+    <input id="calculo1" placeholder="Escribe algo aquí">
+    <input id="calculo2" placeholder="Escribe algo aquí">
+    <button onclick="sumaArit2()">Calcular</button>
+    <p id="resultSum"></p>
+
+    <script>
+        function sumaArit2() {
+            const input1 = parseInt(document.getElementById('calculo1').value);
+            const input2 = parseInt(document.getElementById('calculo2').value);
+            const sum = input1 + input2;
+            document.getElementById('resultSum').innerText = `La suma es: ${sum}`;
+        }
+    </script>
+</body>
+</html>
