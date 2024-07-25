@@ -1,7 +1,10 @@
 // console.log("My App");
 const express = require('express');
 const routerApi = require('./routes');
-const router = require('./routes/products.router');
+
+const { logErrors, errorHandlerlogErrors } = require('./middlewares/error.handler');
+
+// const router = require('./routes/products.router');
 
 const app = express();
 const port = 8080;
@@ -17,6 +20,10 @@ app.get('/nueva-ruta', (req, res) => {
 });
 
 routerApi(app);
+
+app.use(logErrors);
+app.use(errorHandlerlogErrors);
+
 
 app.listen(port, () => {
   console.log('mi port ' + port);
