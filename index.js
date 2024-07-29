@@ -2,7 +2,7 @@
 const express = require('express');
 const routerApi = require('./routes');
 
-const { logErrors, errorHandlerlogErrors } = require('./middlewares/error.handler');
+const { logErrors, errorHandlerlogErrors, boomHandlerlogErrors } = require('./middlewares/error.handler');
 
 // const router = require('./routes/products.router');
 
@@ -22,6 +22,7 @@ app.get('/nueva-ruta', (req, res) => {
 routerApi(app);
 
 app.use(logErrors);
+app.use(boomHandlerlogErrors);
 app.use(errorHandlerlogErrors);
 
 
