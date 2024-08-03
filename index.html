@@ -40,7 +40,15 @@
 </head>
 <body>
     <h1>Curso de Backend con Node: API REST con Express.js</h1>
-    <input id="calculo1" placeholder="Escribe algo aquí">
+
+    <script>
+      (async () => {
+        const response = await fetch('http://localhost:3000/api/v1/products');
+        const data = await response.json();
+        console.log(data);
+      })
+    </script>
+    <!-- <input id="calculo1" placeholder="Escribe algo aquí">
     <input id="calculo2" placeholder="Escribe algo aquí">
     <button onclick="sumaArit2()">Calcular</button>
     <p id="resultSum"></p>
@@ -52,6 +60,6 @@
             const sum = input1 + input2;
             document.getElementById('resultSum').innerText = `La suma es: ${sum}`;
         }
-    </script>
+    </script> -->
 </body>
 </html>

@@ -1,5 +1,6 @@
 // console.log("My App");
 const express = require('express');
+const cors = require('cors');
 const routerApi = require('./routes');
 
 const { logErrors, errorHandlerlogErrors, boomHandlerlogErrors } = require('./middlewares/error.handler');
@@ -7,12 +8,25 @@ const { logErrors, errorHandlerlogErrors, boomHandlerlogErrors } = require('./mi
 // const router = require('./routes/products.router');
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
+const whitelist = ['http://localhost:8080','https://myapp.co'];
+const options = {
+  origin: (origin,callback) => {
+    if (whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('no permitido'));
+    }
+  }
+}
+app.use(cors());
+
 app.get('/', (req,res) => {
   res.send('Hola mi server en express created by oscar')
+  // res.send('/index.html');
 });
 
 app.get('/nueva-ruta', (req, res) => {
