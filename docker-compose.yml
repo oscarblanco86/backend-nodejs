@@ -20,6 +20,20 @@ services:
     ports:
       - 5050:80
 
+  # node:
+  #   image: node
+  #   # working_dir: ./
+  #   environment:
+  #     - NODE_ENV=production
+  #   # volumes:
+  #   #   - ./
+  #   # expose:
+  #   #   - "8081"
+  #   # ports: # use if it is necessary to expose the container to the host machine
+  #   #   - "8001:8001"
+  #   command: "npm run dev"
+
+
 #Configuracion de pgadmin desde consola que si funciono
 # docker run -p 5050:80 \
 #     -e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' \
