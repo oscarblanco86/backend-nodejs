@@ -10,15 +10,17 @@ router.get('/', async (req,res)=>{
   res.json(users);
 });
 
-router.get('/:id',(req,res)=>{
+router.get('/:id',async (req,res)=>{
   const { id } = req.params;
-  const user = service.findOne(id);
+  const user = await service.findOne(id);
   res.json(user);
 });
 
-router.post('/',(req,res)=>{
+router.post('/', async (req,res)=>{
   const body = req.body;
-  const user = user.create(body);
+  console.log('aqui estoy');
+
+  const user = await service.create(body);
   res.status(201).json({
     message: 'created',
     data: body

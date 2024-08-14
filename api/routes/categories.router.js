@@ -5,9 +5,9 @@ const CategoryService = require('./../services/category.service');
 const router = express.Router();
 const service = new CategoryService
 
-router.get('/', (req,res) => {
-  const categories = service.find();
-  return res.json(categories);
+router.get('/', async (req,res) => {
+  const categories = await service.find();
+  res.json(categories);
 });
 
 router.get('/:id', (req,res) => {

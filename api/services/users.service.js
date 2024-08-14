@@ -1,40 +1,36 @@
-const { faker } = require('@faker-js/faker');
+const boom = require('@hapi/boom');
 
-const getConnection = require('../libs/postgres');
-
+const { models } = require('../libs/sequelize');
 
 class UserService {
   constructor() {
-    this.users = [];
-    this.generate();
+    // this.users = [];
+  }
+  async create(data) {
+    const newUser = await models.User.create(data);
+    return newUser;
   }
 
-  generate() {
-    const limit = 10;
-    for (let index = 0; index < limit; index++) {
-      this.users.push({
-        id: faker.string.uuid(),
-        name: faker.person.fullName()
-      });
-    }
-  }
-  create(body) {
-    this.push(body);
-  }
   async find() {
-    const client = await getConnection();
-    const rta = await client.query('SELECT * FROM public.tasks');
-    // console.log(rta.rows);
-    return rta.rows;
+    const rta = await models.User.findAll();
+    return rta;
   }
-  findOne(id) {
-    return this.users.find(user => user.id === id);
+  async findOne(id) {
+    const user = await models.User.findByPk(id);
+    if (!user) {
+      throw boom.notFound('User not found');
+    }
+    return user;
   }
-  update() {
-
+  async update(id, changes) {
+    const user = await models.User.findByPk(id);
+    const rta = await user.update(changes);
+    return rta;
   }
-  delete() {
-
+  async delete() {
+    const user = await models.User.findByPk(id);
+    await user.destroy();
+    return { id };
   }
 }
 
