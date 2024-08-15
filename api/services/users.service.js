@@ -27,8 +27,9 @@ class UserService {
     const rta = await user.update(changes);
     return rta;
   }
-  async delete() {
+  async delete(id) {
     const user = await models.User.findByPk(id);
+    // console.log(id);
     await user.destroy();
     return { id };
   }
