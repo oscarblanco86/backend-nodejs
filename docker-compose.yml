@@ -33,28 +33,28 @@ services:
       my-store:
         ipv4_address: 172.18.0.3
 
+  mysql:
+    image: mysql:5
+    environment:
+      - MYSQL_DATABASE=my_store
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=admin123
+      - MYSQL_PORT=3306
+    ports:
+      - 3305:3306
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    networks:
+      my-store:
+        ipv4_address: 172.18.0.4
 
-  # node:
-  #   image: node
-  #   # working_dir: ./
-  #   environment:
-  #     - NODE_ENV=production
-  #   # volumes:
-  #   #   - ./
-  #   # expose:
-  #   #   - "8081"
-  #   # ports: # use if it is necessary to expose the container to the host machine
-  #   #   - "8001:8001"
-  #   command: "npm run dev"
-
-
-#Configuracion de pgadmin desde consola que si funciono
-# docker run -p 5050:80 \
-#     -e 'PGADMIN_DEFAULT_EMAIL=user@domain.com' \
-#     -e 'PGADMIN_DEFAULT_PASSWORD=SuperSecret' \
-#     -d dpage/pgadmin4
-
-
-#Encontrar la IP de un Docker
-# docker inspect \
-#   -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name_or_id
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin123
+      - PMA_HOST=root
+    ports:
+      - 8080:80
+    networks:
+      my-store:
+        ipv4_address: 172.18.0.5
