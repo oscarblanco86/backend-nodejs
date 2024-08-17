@@ -33,28 +33,28 @@ services:
       my-store:
         ipv4_address: 172.18.0.3
 
-  mysql:
-    image: mysql:5
-    environment:
-      - MYSQL_DATABASE=my_store
-      - MYSQL_USER=root
-      - MYSQL_ROOT_PASSWORD=admin123
-      - MYSQL_PORT=3306
-    ports:
-      - 3305:3306
-    volumes:
-      - ./mysql_data:/var/lib/mysql
-    networks:
-      my-store:
-        ipv4_address: 172.18.0.4
+  # mysql:
+  #   image: mysql:5
+  #   environment:
+  #     - MYSQL_DATABASE=my_store
+  #     - MYSQL_USER=root
+  #     - MYSQL_ROOT_PASSWORD=admin123
+  #     - MYSQL_PORT=3306
+  #   ports:
+  #     - 3305:3306
+  #   volumes:
+  #     - ./mysql_data:/var/lib/mysql
+  #   networks:
+  #     my-store:
+  #       ipv4_address: 172.18.0.4
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      - MYSQL_ROOT_PASSWORD=admin123
-      - PMA_HOST=root
-    ports:
-      - 8080:80
-    networks:
-      my-store:
-        ipv4_address: 172.18.0.5
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=admin123
+  #     - PMA_HOST=root
+  #   ports:
+  #     - 8080:80
+  #   networks:
+  #     my-store:
+  #       ipv4_address: 172.18.0.5
