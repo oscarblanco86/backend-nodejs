@@ -1,36 +1,37 @@
 const express = require('express');
 
-const UserService = require('./../services/users.service');
-const validatorHandler = require('./../middlewares/validator.handler')
+const CustomerService = require('./../services/customers.service');
+const validatorHandler = require('./../middlewares/validator.handler');
 const {
-  createUserSchema,
-  updateUserSchema,
-  getUserSchema
-} = require('./../schemas/user.schema');
+  createCustomerSchema,
+  updateCustomerSchema,
+  getCustomerSchema,
+} = require('./../schemas/customer.schema');
 
 const router = express.Router();
-const service = new UserService();
+const service = new CustomerService();
 
-router.get('/', async (req,res)=>{
-  const users = await service.find();
-  res.json(users);
+router.get('/', async (req, res) => {
+  const customers = await service.find();
+  res.json(customers);
 });
 
 router.get('/:id',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getCustomerSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const user = await service.findOne(id);
-      res.json(user);
+      const customer = await service.findOne(id);
+      res.json(customer);
     } catch (error) {
       next(error);
     }
   },
 );
 
-router.post('/',
-  validatorHandler(createUserSchema, 'body'),
+router.post(
+  '/',
+  validatorHandler(createCustomerSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
@@ -39,12 +40,13 @@ router.post('/',
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
-router.patch('/:id',
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateUserSchema, 'body'),
+router.patch(
+  '/:id',
+  validatorHandler(getCustomerSchema, 'params'),
+  validatorHandler(updateCustomerSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -54,23 +56,23 @@ router.patch('/:id',
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 router.delete('/:id',
-  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(getCustomerSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       await service.delete(id);
-      res.status(201).json({id});
+      res.status(201).json({ id });
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
-router.get('/filter',(req,res) => {
+router.get('/filter', (req, res) => {
   res.send('Yo soy un filter');
 });
 
