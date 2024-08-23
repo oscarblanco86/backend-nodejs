@@ -1,6 +1,5 @@
 'use strict';
 
-const { USER_TABLE } = require('../models/user.model');
 const {
   CustomerSchema,
   CUSTOMER_TABLE,
@@ -12,6 +11,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.drop(CUSTOMER_TABLE);
+    await   queryInterface.dropTable(CUSTOMER_TABLE);
   },
 };

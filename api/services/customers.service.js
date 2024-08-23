@@ -12,24 +12,24 @@ class CustomerService {
   }
 
   async find() {
-    const rta = await models.Costumer.findAll();
+    const rta = await models.Customer.findAll();
     return rta;
   }
   async findOne(id) {
-    const costumer = await models.Costumer.findByPk(id);
-    if (!costumer) {
-      throw boom.notFound('Costumer not found');
+    const customer = await models.Customer.findByPk(id);
+    if (!customer) {
+      throw boom.notFound('Customer not found');
     }
     return costumer;
   }
   async update(id, changes) {
-    const costumer = await models.Costumer.findByPk(id);
-    const rta = await costumer.update(changes);
+    const customer = await models.Customer.findByPk(id);
+    const rta = await customer.update(changes);
     return rta;
   }
   async delete(id) {
-    const costumer = await models.Costumer.findByPk(id);
-    await costumer.destroy();
+    const customer = await models.Customer.findByPk(id);
+    await customer.destroy();
     return { rta:true };
   }
 }

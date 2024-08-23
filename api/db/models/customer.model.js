@@ -18,17 +18,23 @@ const CustomerSchema = {
   lastName: {
     allowNull: false,
     type: DataTypes.STRING,
-    field: 'last_name'
+    field: 'last_name',
   },
   phone: {
     allowNull: true,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
     field: 'created_at',
-    defaultValue: Sequelize.NOW
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    field: 'updated_at',
+    defaultValue: Sequelize.NOW,
   },
   userId: {
     field: 'user_id',
@@ -36,11 +42,11 @@ const CustomerSchema = {
     type: DataTypes.INTEGER,
     references: {
       model: USER_TABLE,
-      key: 'id'
+      key: 'id',
     },
     onUpdate: 'CASCADE',
-    onDelete: 'SET NULL'
-  }
+    onDelete: 'SET NULL',
+  },
 };
 
 class Customer extends Model {

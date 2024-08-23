@@ -7,6 +7,11 @@ class ProductService {
     this.products = [];
   }
 
+  async create(data) {
+    const newProduct = await models.Product.create(data);
+    return newProduct;
+  }
+
   async find() {
     const rta = await models.Product.findAll();
     return rta;

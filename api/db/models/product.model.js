@@ -7,21 +7,33 @@ const ProductSchema = {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
   },
   name: {
     allowNull: false,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   price: {
     allowNull: false,
-    type: DataTypes.FLOAT
+    type: DataTypes.FLOAT,
   },
   image: {
     allowNull: true,
-    type: DataTypes.STRING
-  }
-}
+    type: DataTypes.STRING,
+  },
+  createdAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    field: 'created_at',
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    field: 'updated_at',
+    defaultValue: Sequelize.NOW,
+  },
+};
 
 class Product extends Model {
   static associate() {
@@ -31,7 +43,7 @@ class Product extends Model {
       sequelize,
       tableName: PRODUCT_TABLE,
       modelName: 'Product',
-      timeStamp: false
+      timeStamp: true
     }
   }
 }
