@@ -40,6 +40,7 @@ const CustomerSchema = {
     field: 'user_id',
     allowNull: false,
     type: DataTypes.INTEGER,
+    unique: true,
     references: {
       model: USER_TABLE,
       key: 'id',
@@ -51,16 +52,17 @@ const CustomerSchema = {
 
 class Customer extends Model {
   static associate(models) {
-    this.belongsTo(models.User, {as: 'user'});
+    this.belongsTo(models.User, { as: 'user' });
   }
+
   static config(sequelize) {
     return {
       sequelize,
       tableName: CUSTOMER_TABLE,
       modelName: 'Customer',
-      timeStamp: false
-    }
+      timestamps: false,
+    };
   }
 }
 
-module.exports = { CUSTOMER_TABLE, CustomerSchema, Customer }
+module.exports = { Customer, CustomerSchema, CUSTOMER_TABLE };

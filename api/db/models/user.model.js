@@ -7,7 +7,7 @@ const UserSchema = {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
   },
   email: {
     allowNull: false,
@@ -16,23 +16,33 @@ const UserSchema = {
   },
   password: {
     allowNull: false,
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
   },
   role: {
     allowNull: false,
     type: DataTypes.STRING,
-    defaultValue: 'costumer'
+    defaultValue: 'customer',
   },
   createdAt: {
     allowNull: false,
     type: DataTypes.DATE,
-    field: 'create_at'
-    // defaultValue: sequelize.NOW
-  }
-}
+    field: 'created_at',
+    defaultValue: Sequelize.NOW,
+  },
+  updatedAt: {
+    allowNull: false,
+    type: DataTypes.DATE,
+    field: 'updated_at',
+    defaultValue: Sequelize.NOW,
+  },
+};
 
 class User extends Model {
-  static associate() {
+  static associate(models) {
+    this.hasOne(models.Customer, {
+      as: 'customer',
+      foreignKey: 'userId'
+    });
   }
   static config(sequelize) {
     return {
