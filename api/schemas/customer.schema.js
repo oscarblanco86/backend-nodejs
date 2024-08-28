@@ -20,10 +20,10 @@ const createCustomerSchema = Joi.object({
 });
 
 const updateCustomerSchema = Joi.object({
-  name,
-  lastName,
-  phone,
-  userId
+  name: name,
+  lastName: lastName,
+  phone: phone,
+  userId: userId
 });
 
 const getCustomerSchema = Joi.object({

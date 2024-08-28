@@ -29,22 +29,20 @@ router.get('/:id',
   },
 );
 
-router.post(
-  '/',
+router.post('/',
   validatorHandler(createCustomerSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newCategory = await service.create(body);
-      res.status(201).json(newCategory);
+      const newCustomer = await service.create(body);
+      res.status(201).json(newCustomer);
     } catch (error) {
       next(error);
     }
   },
 );
 
-router.patch(
-  '/:id',
+router.patch('/:id',
   validatorHandler(getCustomerSchema, 'params'),
   validatorHandler(updateCustomerSchema, 'body'),
   async (req, res, next) => {
