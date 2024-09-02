@@ -16,8 +16,8 @@ function setupModels(sequelize) {
 
   // Set up associations
   User.associate(sequelize.models);
-  Product.associate(sequelize.models); // Assuming Product may have associations
-  Category.associate(sequelize.models); // Assuming Category may have associations
+  Product.associate(sequelize.models);
+  Category.associate(sequelize.models)
   Customer.associate(sequelize.models);
   Order.associate(sequelize.models);
   OrderProduct.associate(sequelize.models);
