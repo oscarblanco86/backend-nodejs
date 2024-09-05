@@ -22,16 +22,16 @@ services:
       my-store:
         ipv4_address: 172.18.0.2
 
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
-      - PGADMIN_DEFAULT_PASSWORD=root
-    ports:
-      - 5050:80
-    networks:
-      my-store:
-        ipv4_address: 172.18.0.3
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=admin@mail.com
+  #     - PGADMIN_DEFAULT_PASSWORD=root
+  #   ports:
+  #     - 5050:80
+  #   networks:
+  #     my-store:
+  #       ipv4_address: 172.18.0.3
 
   # mysql:
   #   image: mysql:5

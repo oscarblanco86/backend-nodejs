@@ -9,6 +9,8 @@ const categoryId = Joi.number().integer();
 
 const limit = Joi.number().integer();
 const offset =Joi.number().integer();
+const price_min = Joi.number().integer();
+const price_max = Joi.number().integer();
 
 const createProductSchema = Joi.object({
   name: name.required(),
@@ -30,9 +32,24 @@ const getProductSchema = Joi.object({
   id: id.required()
 });
 
-const queryProductSchema = Joi.object( {
+const queryProductSchema = Joi.object({
   limit,
-  offset
+  offset,
+  price,
+  price_min,
+  price_max: price_max
+    .when('price_min', {
+      is: Joi.exist(), // Solo si price_min existe
+      then: Joi.number().integer().greater(Joi.ref('price_min')).required(), // price_max debe ser mayor que price_min y requerido si price_min está presente
+    })
+    .when('price', {
+      is: Joi.exist(),
+      then: Joi.forbidden(), // Si price existe, price_max no debe estar presente
+    }),
+  // price_max: price_max.when('price_min', {
+  //   is: Joi.number().integer(),
+  //   then: Joi.required(),
+  // }),
 });
 
 module.exports = { createProductSchema, updateProductSchema, getProductSchema, queryProductSchema };
