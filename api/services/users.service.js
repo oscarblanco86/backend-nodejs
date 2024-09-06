@@ -1,34 +1,39 @@
-const { faker } = require('@faker-js/faker');
+const boom = require('@hapi/boom');
+
+const { models } = require('../libs/sequelize');
 
 class UserService {
   constructor() {
-    this.users = [];
-    this.generate();
+
+  }
+  async create(data) {
+    const newUser = await models.User.create(data);
+    return newUser;
   }
 
-  generate() {
-    const limit = 10;
-    for (let index = 0; index < limit; index++) {
-      this.users.push({
-        id: faker.string.uuid(),
-        name: faker.person.fullName()
-      });
+  async find() {
+    const rta = await models.User.findAll({
+      include: ['customer']
+    });
+    return rta;
+  }
+  async findOne(id) {
+    const user = await models.User.findByPk(id);
+    if (!user) {
+      throw boom.notFound('User not found');
     }
+    return user;
   }
-  create(body) {
-    this.push(body);
+  async update(id, changes) {
+    const user = await models.User.findByPk(id);
+    const rta = await user.update(changes);
+    return rta;
   }
-  find() {
-    return this.users;
-  }
-  findOne(id) {
-    return this.users.find(user => user.id === id);
-  }
-  update() {
-
-  }
-  delete() {
-
+  async delete(id) {
+    const user = await models.User.findByPk(id);
+    // console.log(id);
+    await user.destroy();
+    return { id };
   }
 }
 
