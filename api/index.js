@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes');
+const { checkApiKey } = require('./middlewares/auth.handler');
 
 const { logErrors, errorHandlerlogErrors, boomHandlerlogErrors, ormErrorHandler } = require('./middlewares/error.handler');
 
@@ -23,13 +24,14 @@ const options = {
   }
 }
 app.use(cors());
+require('./utils/auth');
 
 app.get('/api', (req,res) => {
   res.send('Hola mi server en express created by oscar')
   // res.send('/index.html');
 });
 
-app.get('/api/nueva-ruta', (req, res) => {
+app.get('/api/nueva-ruta', checkApiKey, (req, res) => {
   res.send('Hola soy una nueva ruta');
 });
 
