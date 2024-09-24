@@ -5,16 +5,42 @@ const { models } = require('../libs/sequelize');
 class OrderService {
   constructor() {}
   async create(data) {
-    const newOrder = await models.Order.create(data, {
-      include: ['customer'],
-    });
-    return newOrder;
+    try {
+      console.log('Data received for order creation:', data);
+      const customer = await models.Customer.findByPk(data.customerId);
+    if (!customer) {
+      throw boom.badRequest('Customer does not exist');
+    }
+      const newOrder = await models.Order.create(data, {
+        include: ['customer'],
+      });
+      return newOrder;
+    } catch (error) {
+      console.error(error);
+      throw boom.badRequest('Failed to create order');
+    }
   }
   async addItem(data) {
     const newItem = await models.OrderProduct.create(data);
     return newItem;
   }
 
+  async findByUser(userId) {
+    // console.log("find by user",userId);
+    const orders = await models.Order.findAll({
+      where: {
+        '$customer.user.id$': userId
+      },
+      include: [
+        {
+          association: 'customer',
+          include: ['user']
+        }
+      ]
+    });
+    return orders;
+  }
+  
   async find() {
     const orders = await models.Order.findAll({
       include: ['customer'],

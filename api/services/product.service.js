@@ -39,21 +39,27 @@ class ProductService {
   }
 
   async findOne(id) {
-    const product = this.products.find((item) => item.id === id);
+    const product = await models.Product.findByPk(id, {
+      include: ['category']
+    });
     if (!product) {
-      throw boom.notFound('producto not found');
-    }
-    if (product.isBlock) {
-      throw boom.conflict('product is block');
-
+      throw boom.notFound(' Product not found');
     }
     return product;
+    // const product = this.products.find((item) => item.id === id);
+    // if (!product) {
+    //   throw boom.notFound('producto not found');
+    // }
+    // if (product.isBlock) {
+    //   throw boom.conflict('product is block');
+    // }
+    // return product;
   }
 
   async update(id, changes) {
     const index = this.products.findIndex(item => item.id === id);
     if (index === -1) {
-      throw boom.notFound('producto not found');
+      throw boom.notFound('product not found');
     } else {
       const product = this.products[index];
       this.products[index] = {
@@ -65,13 +71,16 @@ class ProductService {
   }
 
   async delete(id) {
-    const index = this.products.findIndex(item => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('producto not found');
-    } else {
-      this.products.splice(index,1);
-      return {message: true};
-    }
+    const product = await models.Product.findByPk(id);
+    await product.destroy();
+    return { rta: true };
+    // const index = this.products.findIndex(item => item.id === id);
+    // if (index === -1) {
+    //   throw boom.notFound('producto not found');
+    // } else {
+    //   this.products.splice(index,1);
+    //   return {message: true};
+    // }
   }
 }
 

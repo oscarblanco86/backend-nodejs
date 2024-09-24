@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 
 const ProductService = require('./../services/product.service');
 const validatorHandler = require('./../middlewares/validator.handler');
@@ -65,11 +66,23 @@ router.patch('/:id',
   },
 );
 
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-  const rta = await service.delete(id);
-  res.json(rta);
-});
+router.delete('/:id', 
+  passport.authenticate('jwt',{session:false}),
+  validatorHandler(getProductSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      await service.delete(id);
+      res.status(201).json({ id });
+    } catch (error) {
+      next(error);
+    }
+  // async 
+  // const { id } = req.params;
+  // const rta = await service.delete(id);
+  // res.json(rta);
+  }
+);
 
 router.get('/filter', (req, res) => {
   res.send('Yo soy un filter');
