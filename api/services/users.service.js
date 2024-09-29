@@ -31,7 +31,7 @@ class UserService {
   async findByEmail(email) {
     const rta = await models.User.findOne({
       where: { email },
-      include: ['customer']
+      // include: ['customer']
     });
     // delete rta.dataValues.password;
     return rta;
@@ -50,6 +50,14 @@ class UserService {
     const rta = await user.update({
       ...changes,
       password: hash
+    });
+    return rta;
+  }
+  async updateRecovery(id, changes) {
+    // const hash = await bcrypt.hash(changes.password, 10);
+    const user = await models.User.findByPk(id);
+    const rta = await user.update({
+      ...changes,
     });
     return rta;
   }
