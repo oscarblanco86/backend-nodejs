@@ -21,9 +21,7 @@ class UserService {
     const rta = await models.User.findAll({
       include: ['customer']
     });
-    // delete rta.dataValues.password;
     rta.forEach((user) => {
-      // console.log(user);
       delete user.dataValues.password;
     });
     return rta;
@@ -31,9 +29,7 @@ class UserService {
   async findByEmail(email) {
     const rta = await models.User.findOne({
       where: { email },
-      // include: ['customer']
     });
-    // delete rta.dataValues.password;
     return rta;
   }
   async findOne(id) {
@@ -41,7 +37,6 @@ class UserService {
     if (!user) {
       throw boom.notFound('User not found');
     }
-    // delete user.dataValues.password;
     return user;
   }
   async update(id, changes) {
@@ -54,7 +49,6 @@ class UserService {
     return rta;
   }
   async updateRecovery(id, changes) {
-    // const hash = await bcrypt.hash(changes.password, 10);
     const user = await models.User.findByPk(id);
     const rta = await user.update({
       ...changes,
@@ -63,7 +57,6 @@ class UserService {
   }
   async delete(id) {
     const user = await models.User.findByPk(id);
-    // console.log(id);
     await user.destroy();
     return { id };
   }

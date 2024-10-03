@@ -35,20 +35,21 @@ class AuthService{
 
     async sendRecovery(user) {
         const mail = await service.findByEmail(user.email);
-        // console.log("this is mail",mail);
         if (!mail) {
             throw boom.unauthorized();
         }
-        const payload = { sub: user.id };
+        console.log("mail en sendrecovery",mail);
+        const payload = { sub: mail.dataValues.id };
+        console.log("payload en sendrecovery",payload);
         const token = jwt.sign(payload, config.jwtRecovSecret, {expiresIn: '15min'});
         console.log("token: ",token);
         await service.updateRecovery(mail.dataValues.id, {recoveryToken: token});
-        const link = `http://frontend.com/recovery?token${token}`;
+        const link = `http://frontend.com/recovery?token=${token}`;
         const info = {
-            from: config.smtpEmail, // sender address
-            to: `${user.email}`, // list of receivers
-            subject: "Pass Recovery from my store app", // Subject line
-            text: `Password recovery my store app this is the user data ${user}`, // plain text body
+            from: config.smtpEmail, 
+            to: `${user.email}`, 
+            subject: "Pass Recovery from my store app", 
+            text: `Password recovery my store app this is the user data ${user}`, 
             html: `<style>
                         body {
                             display: flex;
@@ -83,10 +84,10 @@ class AuthService{
                                 <a href="${link}">link</a>
                             </p>
                             <br>
-                            <p>In case you have difficulties enter the following link:</p> 
+                            <p>In case you have difficulties enter the following link: </p> 
                             <p>${link}</p>
                         </div>
-                    </body>`, // html body
+                    </body>`, 
           }
         const rta = await this.sendMail(info);
         return rta;
@@ -95,17 +96,30 @@ class AuthService{
     async sendMail(infoMail) {
         const transporter = nodemailer.createTransport({
             host: config.mailServer,
-            port: 587,
+            port: 465,
               auth: {
                   user: config.mail,
                   pass: config.mailPass
               },
           });
-        // const info = 
         await transporter.sendMail(infoMail);
-        // console.log("Message sent: %s", info.messageId);
         return { message: 'mail sent' }
     }
-}
 
+
+    async changePassword(token,newPassword) {
+        try {
+            const payload = jwt.verify(token, config.jwtRecovSecret);
+            const user = await service.findOne(payload.sub);
+
+            if (user.recoveryToken !== token) {
+                throw boom.unauthorized();
+            }
+            await service.update(user.id, {recoveryToken: null, password: newPassword});
+            return { message: 'password changed'};
+        } catch (error) {
+            throw boom.unauthorized();
+        }
+    }
+}
 module.exports = AuthService;

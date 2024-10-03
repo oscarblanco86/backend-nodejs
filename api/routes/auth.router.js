@@ -12,7 +12,7 @@ router.post('/login',
     async (req, res, next) => {
         try {
             const user = req.user;
-            res.json(service.signToken(user));
+            res.json(await service.signToken(user));
         } catch (error) {
             next(error);
         }
@@ -24,6 +24,19 @@ router.post('/recovery',
         try {
             const user = req.body;
             const mail = await service.sendRecovery(user);
+            res.json(mail);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+router.post('/change-password',
+    async (req, res, next) => {
+        try {
+            const { token, newPassword } = req.body;
+            const mail = await service.changePassword(token,newPassword);
+            console.log(mail);
             res.json(mail);
         } catch (error) {
             next(error);
